@@ -4,15 +4,24 @@
 	<meta charset="utf-8">
 	<title>Template</title>
 	@@include('./partials/head.html')
+	<link rel="stylesheet" href="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.css" />
+
+
 </head>
 <body>
 <!-- BEGIN  wrapper-->
 <div class="wrapper">
 	@@include('./sections/header.html')
 	<main class="main">
-		<h1>hello world!</h1>
-		<h2>hello world!</h2>
-		<h3>hello world!</h3>
+		<div class="swiper-slide land-showcase_slide land-beforeafter " data-category="litery">
+			<div class="land-showcase_slide__title">
+				<div class="land-title_top">До / Після</div>
+				<div class="land-title_bottom">Traumeel</div>
+			</div>
+			<div class="land-showcase_slide_img">
+				<div class="land-compare" data-before="img/showcase_slide.png" data-after="img/showcase_slide_test.png"></div>
+			</div>
+		</div>
 	</main>
 	@@include('./sections/footer.html',  {"socials": {
 		"fb": "facebook.com/include",
@@ -21,5 +30,40 @@
 </div>
 <!-- END wrapper-->
 @@include('./partials/foot.html')
+<script src="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.js"></script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const elements = document.querySelectorAll('.land-compare');
+
+		elements.forEach(el => {
+			const before = el.dataset.before;
+			const after = el.dataset.after;
+
+			// Створюємо контейнер для ImageCompare
+			const container = document.createElement('div');
+			container.classList.add('icv');
+			container.innerHTML = `
+            <img src="${before}" alt="Before">
+            <img src="${after}" alt="After">
+        `;
+			el.appendChild(container);
+
+			// Ініціалізуємо ImageCompare
+			const viewer = new ImageCompare(container, {
+				controlColor: '#ffffff',
+				addCircle: true,
+				showLabels: true,
+				labelOptions: {
+					before: 'До',
+					after: 'Після',
+					onHover: false
+				}
+			});
+			viewer.mount();
+		});
+	});
+</script>
+
 </body>
 </html>
